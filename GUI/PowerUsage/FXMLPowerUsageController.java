@@ -49,7 +49,7 @@ public class FXMLPowerUsageController implements Initializable {
 
     @FXML private HBox ContainerBox;
 
-    @FXML private VBox Electricity;
+    @FXML private VBox ElectricityBox;
     @FXML private TextArea ElectricityDetails;
     @FXML private Label ElectricityDescription;
     @FXML private DatePicker ElectricityStartDate;
@@ -57,7 +57,7 @@ public class FXMLPowerUsageController implements Initializable {
     @FXML private TextField meterUnits;
     @FXML private Button btnUpdateElectricity;
 
-    @FXML private VBox Generator;
+    @FXML private VBox GeneratorBox;
     @FXML private TextArea GeneratorDetails;
     @FXML private Label GeneratorDescription;
     @FXML private DatePicker GeneratorStartDate;
@@ -68,7 +68,7 @@ public class FXMLPowerUsageController implements Initializable {
     @FXML private Button btnDeleteGenerator;
     @FXML private Button btnUpdateGenerator;
 
-    @FXML private VBox AC;
+    @FXML private VBox ACBox;
     @FXML private ListView ACList;
     @FXML private ChoiceBox ACTypeList;
     @FXML private ChoiceBox RefrigerantList;
@@ -86,6 +86,12 @@ public class FXMLPowerUsageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+
+    public void initializeElectricity() {
+        ElectricityBox.managedProperty().bind(ElectricityBox.visibleProperty());
+
+    }
+
     
 }

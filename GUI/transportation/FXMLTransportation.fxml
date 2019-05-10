@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ChoiceBox?>
 <HBox fx:id="ContainerBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="568.0" style="-fx-border-width: 2; -fx-border-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transportation.FXMLTransportationController">
    <children>
       <VBox fx:id="VehicleBox" prefHeight="471.0" prefWidth="256.0" style="-fx-border-width: 1; -fx-border-color: black;">
@@ -52,7 +53,7 @@
                                     <DatePicker fx:id="startDate" GridPane.columnIndex="1" />
                                     <Label text="End Date" GridPane.rowIndex="1" />
                                     <Label text="Fuel Type" GridPane.rowIndex="2" />
-                                    <ComboBox fx:id="fuelList" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ChoiceBox fx:id="fuelList" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <Label text="Fuel Total" GridPane.rowIndex="3" />
                                     <TextField fx:id="fuelTotal" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                  </children>
