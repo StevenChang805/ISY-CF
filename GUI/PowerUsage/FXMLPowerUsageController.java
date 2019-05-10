@@ -23,6 +23,7 @@
  */
 package PowerUsage;
 
+import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -80,9 +81,15 @@ public class FXMLPowerUsageController implements Initializable {
 
     //private PowerUsageDataCollector dc;
 
+    @FXML private void UpdateElectricity(ActionEvent event) {
+
+    } // end of UpdateElectricity
+
+
     /**
      * Initializes the controller class.
      */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
