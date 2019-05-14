@@ -25,21 +25,18 @@ package PowerUsage;
 
 import java.awt.event.ActionEvent;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.converter.IntegerStringConverter;
 
 /**
  * FXML Controller class
@@ -52,6 +49,7 @@ public class FXMLPowerUsageController implements Initializable {
 
     @FXML private VBox ElectricityBox;
     @FXML private TextArea ElectricityDetails;
+    @FXML private TextField ElectricityId;
     @FXML private Label ElectricityDescription;
     @FXML private DatePicker ElectricityStartDate;
     @FXML private DatePicker ElectricityEndDate;
@@ -79,7 +77,16 @@ public class FXMLPowerUsageController implements Initializable {
     @FXML private Button btnDeleteAC;
     @FXML private Button btnUpdateAC;
 
-    //private PowerUsageDataCollector dc;
+    private PowerUsageDataCollector dc;
+
+    UnaryOperator<TextFormatter.Change> integerFilter = change -> {
+        String newText = change.getControlNewText();
+        if (newText.matches("-?([1-9][0-9]*)?")) {
+            return change;
+        }
+        return null;
+    };
+
 
     @FXML private void UpdateElectricity(ActionEvent event) {
 
@@ -93,11 +100,20 @@ public class FXMLPowerUsageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        dc = PowerUsageDataCollector.getInstance();
     }
 
-    public void initializeElectricity() {
-        ElectricityBox.managedProperty().bind(ElectricityBox.visibleProperty());
+    private void initializeElectricity() {
+        btnUpdateElectricity.setDisable(true);
+        meterUnits.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
 
+    }
+
+    private void setElectricityDetails(int id) {
+        ElectricityDescription.setText("ID: " + id);
+
+        ElectricityEndDate.setValue(LocalDate.now());
+        meterUnits.clear();
     }
 
     

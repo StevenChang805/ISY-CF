@@ -17,8 +17,6 @@ public class PowerUsageDataCollector {
         int meterUnits;
     } // end of inner class Electricity
 
-
-
     class Generator {
         int id;
         LocalDate startDate;
