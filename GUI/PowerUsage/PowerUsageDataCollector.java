@@ -3,24 +3,22 @@ package PowerUsage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.Date;
+import java.util.*;
 
 public class PowerUsageDataCollector {
 
     class Electricity {
         int id;
-        LocalDate startDate;
-        LocalDate endDate;
+        Date startDate;
+        Date endDate;
         int meterUnits;
     } // end of inner class Electricity
 
     class Generator {
         int id;
-        LocalDate startDate;
-        LocalDate endDate;
+        Date startDate;
+        Date endDate;
         int amount;
     } // end of inner class Generator
 
@@ -46,16 +44,25 @@ public class PowerUsageDataCollector {
 
     // Initialize
     private void initialize() {
+        connect();
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
         previousYear = currentYear-1;
     } // end of method initialize
 
-    private void getAllElecrity() {
+    private void getAllElecrity(Connection conn) {
         electricityDetails = new HashMap<>();
         try {
             Statement st = conn.createStatement();
-            String query = "SELECT Electricity_ID, Start_Date, End_Date, Meter_Units FROM Electricity WHERE StartDate BETWEEN \"" + previousYear + "-07-01%\" AND \"" + currentYear + "-06-30%\"";
+            String query = "SELECT Start_Date, End_Date FROM Electricity WHERE StartDate BETWEEN \"" + previousYear + "-07-01%\" AND \"" + currentYear + "-06-30%\"";
             ResultSet rec = st.executeQuery(query);
+            Electricity electricity = new Electricity();
+            while(rec.next()) {
+                electricity.id = rec.getInt("Electricity_ID");
+                electricity.startDate = rec.getDate("Start_Date");
+                electricity.endDate = rec.getDate("End_Date");
+                electricity.meterUnits = rec.getInt("Meter_Units");
+                electricityDetails.put(electricity.id, electricity);
+            }
 
         } catch (SQLException s) {
             System.out.println("SQL error: "
@@ -67,6 +74,17 @@ public class PowerUsageDataCollector {
             System.out.println("Error: " + e.toString() + e.getMessage());
         } //hello
     } // end of method getAllElectricity
+
+    public ArrayList<Integer> getElectricityList(){
+        ArrayList<Integer> electricity = new ArrayList<>();
+        Set< HashMap.Entry< Integer, PowerUsageDataCollector.Electricity> > st = electricityDetails.entrySet();
+
+        for (HashMap.Entry< Integer, PowerUsageDataCollector.Electricity> me:st)
+        {
+            electricity.add(me.getKey());
+        }
+        return electricity;
+    } // end method getElectricityList()
 
     private void connect() {
         try(FileInputStream f = new FileInputStream("db.properties")) {
