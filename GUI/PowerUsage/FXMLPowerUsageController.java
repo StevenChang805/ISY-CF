@@ -26,14 +26,15 @@ package PowerUsage;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.converter.IntegerStringConverter;
@@ -48,6 +49,7 @@ public class FXMLPowerUsageController implements Initializable {
     @FXML private HBox ContainerBox;
 
     @FXML private VBox ElectricityBox;
+    @FXML private ListView<Integer> ElectricityLists;
     @FXML private TextArea ElectricityDetails;
     @FXML private TextField ElectricityId;
     @FXML private Label ElectricityDescription;
@@ -110,8 +112,12 @@ public class FXMLPowerUsageController implements Initializable {
     }
 
     private void setElectricityDetails(int id) {
-        ElectricityDescription.setText("ID: " + id);
+        ArrayList<Integer> electricity = dc.getElectricityList();
+        ObservableList<Integer> electricityList = FXCollections.observableArrayList(electricity);
+        ElectricityLists.getItems().addAll(electricityList);
+        btnUpdateElectricity.setDisable(true);
 
+        ElectricityDescription.setText("ID: " + id);
         ElectricityEndDate.setValue(LocalDate.now());
         meterUnits.clear();
     }
