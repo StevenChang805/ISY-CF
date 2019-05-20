@@ -112,6 +112,7 @@ public class FXMLPowerUsageController implements Initializable {
 
     private void setElectricityDetails() {
         ArrayList<Integer> electricity = dc.getElectricityList();
+        ElectricityStartDate.setValue(dc.getLastDate());
         ElectricityEndDate.setValue(LocalDate.now());
         meterUnits.clear();
     }
