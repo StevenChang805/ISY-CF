@@ -49,10 +49,7 @@ public class FXMLPowerUsageController implements Initializable {
     @FXML private HBox ContainerBox;
 
     @FXML private VBox ElectricityBox;
-    @FXML private ListView<Integer> ElectricityLists;
     @FXML private TextArea ElectricityDetails;
-    @FXML private TextField ElectricityId;
-    @FXML private Label ElectricityDescription;
     @FXML private DatePicker ElectricityStartDate;
     @FXML private DatePicker ElectricityEndDate;
     @FXML private TextField meterUnits;
@@ -103,21 +100,17 @@ public class FXMLPowerUsageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         dc = PowerUsageDataCollector.getInstance();
+        initializeElectricity();
     }
 
     private void initializeElectricity() {
         btnUpdateElectricity.setDisable(true);
-        meterUnits.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
-
+        meterUnits.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 0, integerFilter));
+        setElectricityDetails();
     }
 
-    private void setElectricityDetails(int id) {
+    private void setElectricityDetails() {
         ArrayList<Integer> electricity = dc.getElectricityList();
-        ObservableList<Integer> electricityList = FXCollections.observableArrayList(electricity);
-        ElectricityLists.getItems().addAll(electricityList);
-        btnUpdateElectricity.setDisable(true);
-
-        ElectricityDescription.setText("ID: " + id);
         ElectricityEndDate.setValue(LocalDate.now());
         meterUnits.clear();
     }
